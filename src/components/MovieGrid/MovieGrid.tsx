@@ -4,27 +4,27 @@ import PlaceholderPoster from "../../assets/placeholer-poster.png";
 
 interface MovieGridProps {
   movies: Movie[];
-  onClick: (id: number) => void;
+  onSelect: (movie: Movie) => void;
 }
 
-export default function MovieGrid({ movies, onClick }: MovieGridProps) {
+export default function MovieGrid({ movies, onSelect }: MovieGridProps) {
   return (
     <ul className={css.grid}>
-      {movies.map(({ id, poster_path, title }) => (
-        <li key={id}>
+      {movies.map((movie) => (
+        <li key={movie.id}>
           <div className={css.card}>
             <img
-              onClick={() => onClick(id)}
+              onClick={() => onSelect(movie)}
               className={css.image}
               src={
-                poster_path
-                  ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                   : PlaceholderPoster
               }
-              alt={title}
+              alt={movie.title}
               loading="lazy"
             />
-            <h2 className={css.title}>{title.toLocaleLowerCase()}</h2>
+            <h2 className={css.title}>{movie.title.toLocaleLowerCase()}</h2>
           </div>
         </li>
       ))}

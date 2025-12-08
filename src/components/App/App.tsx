@@ -14,8 +14,6 @@ export default function App() {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [modalWindow, setModalWindow] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const noMoviesNotify = () => toast("No movies found for your request.");
 
@@ -40,28 +38,25 @@ export default function App() {
     }
   };
 
-  const nandleModal = (id: number) => {
-    const movie = movies.find((movie) => movie.id === id);
+  const handleModal = (movie: Movie) => {
     if (!movie) return;
     setSelectedMovie(movie);
-    setModalWindow(true);
-    setIsModalVisible(true);
   };
 
   const onModalClose = () => {
-    setIsModalVisible(false);
+    setSelectedMovie(null);
   };
 
   return (
     <div className={css.app}>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
       <Toaster />
       {loader ? <Loader /> : null}
       {movies.length > 0 ? (
-        <MovieGrid movies={movies} onClick={nandleModal} />
+        <MovieGrid movies={movies} onSelect={handleModal} />
       ) : null}
       {error ? <ErrorMessage /> : null}
-      {modalWindow && selectedMovie && isModalVisible ? (
+      {selectedMovie ? (
         <MovieModal movie={selectedMovie} onClose={onModalClose} />
       ) : null}
     </div>
