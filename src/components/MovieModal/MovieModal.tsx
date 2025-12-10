@@ -28,7 +28,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     document.body.style.overflow = "hidden";
 
     return () => {
-      removeEventListener("keydown", handleKeydown);
+      document.removeEventListener("keydown", handleKeydown);
       document.body.style.overflow = origin;
     };
   }, [movie, onClose]);
